@@ -1,0 +1,7 @@
+name: rate-limiter-environment
+
+dependencies:
+  - python=3.11
+  - aiohttp
+  - pytest
+  - pytest-asyncio
