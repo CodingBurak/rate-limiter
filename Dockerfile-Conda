@@ -1,0 +1,23 @@
+# Use an official Miniconda3 image as a parent image
+FROM continuumio/miniconda3
+# Set the working directory in the container
+WORKDIR .
+
+# Copy the environment.yml file into the container
+COPY environment.yml .
+
+# Create the Conda environment
+RUN /opt/conda/bin/conda env update -n base -q -f environment.yml \
+    && conda clean --all --yes \
+    && rm -rf /conda/pkgs ~/.conda/pkgs /opt/conda/pkgs/*
+
+# Copy the current directory contents into the container
+COPY . .
+
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
+ENV ALGORITHM_TYPE tbl
+
+# Run main.py when the container launches
+#ENTRYPOINT ["python", "main/main.py"]
+CMD ["python","-u", "main/main.py", "-limiteralgo", "$ALGORITHM_TYPE"]
